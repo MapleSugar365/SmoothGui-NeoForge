@@ -1,16 +1,17 @@
 {
   "required": true,
   "package": "ezzenix.smoothgui.mixin",
-  "compatibilityLevel": "JAVA_17",
+  "compatibilityLevel": "JAVA_21",
+  "refmap": "smoothgui.refmap.json",
   "mixins": [
   ],
   "injectors": {
     "defaultRequire": 1
   },
   "client": [
-    "HandledScreenMixin",
-    "RecipeBookMixin",
-    "TexturedButtonWidgetMixin",
+    "AbstractContainerScreenMixin",
+    "ImageButtonMixin",
+    "RecipeBookComponentMixin",
     "ScreenMixin"
   ]
 }

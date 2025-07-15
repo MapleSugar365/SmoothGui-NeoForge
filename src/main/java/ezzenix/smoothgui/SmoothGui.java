@@ -1,22 +1,23 @@
 package ezzenix.smoothgui;
 
-import net.fabricmc.api.ModInitializer;
-
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.api.distmarker.OnlyIn;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.common.Mod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SmoothGui implements ModInitializer {
+@OnlyIn(Dist.CLIENT)
+@Mod(SmoothGui.MOD_ID)
+public class SmoothGui {
 	public static final String MOD_ID = "smoothgui";
 	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+	public static long lastGuiOpenedTime = 0;
 
-	@Override
-	public void onInitialize() {
+	public SmoothGui(IEventBus modEventBus) {
 		LOGGER.info("SmoothGui initialized!");
 	}
-
-	//
-	public static long lastGuiOpenedTime = 0;
 
 	private static float easeInBack(float t) {
 		float c1 = 1.70158f;
@@ -25,21 +26,18 @@ public class SmoothGui implements ModInitializer {
 	}
 
 	public static float getOffsetY() {
-		MinecraftClient client = MinecraftClient.getInstance();
-
+		Minecraft client = Minecraft.getInstance();
 		float FADE_TIME = 220;
 		float FADE_OFFSET = 9;
-
-		float screenFactor = (float)client.getWindow().getHeight() / 1080;
-		float timeSinceOpen = Math.min((float)(System.currentTimeMillis() - SmoothGui.lastGuiOpenedTime), FADE_TIME);
-		float alpha = 1 - (timeSinceOpen/FADE_TIME);
+		float screenFactor = (float) client.getWindow().getHeight() / 1080;
+		float timeSinceOpen = Math.min((float) (System.currentTimeMillis() - SmoothGui.lastGuiOpenedTime), FADE_TIME);
+		float alpha = 1 - (timeSinceOpen / FADE_TIME);
 		float modifiedAlpha = easeInBack(alpha);
-
 		return modifiedAlpha * FADE_OFFSET * screenFactor;
 	}
 
 	public static boolean isInMenu() {
-		MinecraftClient client = MinecraftClient.getInstance();
-		return client.world == null && client.player == null;
+		Minecraft client = Minecraft.getInstance();
+		return client.level == null && client.player == null;
 	}
 }
