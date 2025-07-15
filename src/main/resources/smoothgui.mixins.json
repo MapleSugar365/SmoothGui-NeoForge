@@ -2,7 +2,6 @@
   "required": true,
   "package": "ezzenix.smoothgui.mixin",
   "compatibilityLevel": "JAVA_21",
-  "refmap": "smoothgui.refmap.json",
   "mixins": [
   ],
   "injectors": {
